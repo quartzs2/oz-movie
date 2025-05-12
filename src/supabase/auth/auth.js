@@ -6,11 +6,8 @@ export const logIn = async ({ email, password }) => {
       email,
       password,
     })
-    .then(() => {
-      console.log("로그인 성공!!");
-    })
     .catch((error) => {
-      console.log(error);
+      throw error;
     });
 };
 
@@ -24,14 +21,12 @@ export const signUp = async ({ email, name, password }) => {
     throw error;
   }
 
-  const userData = await supabase.from("user_table").insert({
+  await supabase.from("user_table").insert({
     created_at: data.user?.created_at,
     email: data.user?.email,
     id: data.user?.id,
     name,
   });
-
-  console.log(userData);
 };
 
 export const signOut = async () => {
@@ -39,5 +34,28 @@ export const signOut = async () => {
 
   if (error) {
     throw error;
+  }
+};
+
+export const signInWithKakao = async () => {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "kakao",
+  });
+
+  if (error) {
+    throw error;
+  }
+
+  // TODO: 작동되는지 확인 필요
+  if (data.user?.id) {
+    await supabase.from("user_table").upsert(
+      {
+        created_at: data.user?.created_at,
+        email: data.user?.email,
+        id: data.user?.id,
+        name: data.user?.user_metadata?.name,
+      },
+      { ignoreDuplicates: true, onConflict: "id" }
+    );
   }
 };
