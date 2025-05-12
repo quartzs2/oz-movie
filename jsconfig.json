@@ -7,6 +7,8 @@
       "@pages/*": ["src/pages/*"],
       "@utils/*": ["src/utils/*"],
       "@constants/*": ["src/constants/*"],
+      "@src/supabase/*": ["src/supabase/*"],
+      "@context/*": ["src/context/*"],
       "@data/*": ["src/data/*"],
       "@api/*": ["src/api/*"],
       "@hooks/*": ["src/hooks/*"]
