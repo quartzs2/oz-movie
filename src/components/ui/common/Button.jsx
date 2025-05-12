@@ -6,7 +6,7 @@ const Button = ({ children, className, onClick, tag = "button", type = "button" 
   return (
     <Tag
       className={cn(
-        "flex p-2 items-center justify-center bg-black text-white rounded-xl",
+        "flex p-2 items-center justify-center break-keep bg-black text-white rounded-xl",
         className
       )}
       onClick={onClick}

@@ -1,9 +1,9 @@
 import Layout from "@components/Layout";
-import Login from "@pages/Login";
+import LogIn from "@pages/LogIn";
 import Main from "@pages/Main";
 import MovieDetail from "@pages/MovieDetail";
 import NotFound from "@pages/NotFound";
-import Signup from "@pages/Signup";
+import SignUp from "@pages/SignUp";
 import { Route, Routes } from "react-router";
 
 const App = () => {
@@ -13,11 +13,11 @@ const App = () => {
       path: "/",
     },
     {
-      element: <Signup />,
+      element: <SignUp />,
       path: "signup",
     },
     {
-      element: <Login />,
+      element: <LogIn />,
       path: "login",
     },
     {

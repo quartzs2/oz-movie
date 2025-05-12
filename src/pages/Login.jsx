@@ -1,9 +1,12 @@
 import Button from "@components/ui/common/Button";
 import LabeledInput from "@components/ui/common/LabeledInput";
+import { logIn } from "@src/supabase/auth/auth";
 import { validateEmail, validatePassword } from "@utils/validator";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
-const Login = () => {
+const LogIn = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -25,11 +28,12 @@ const Login = () => {
     });
 
     if (!errors.email.length && !errors.password.length) {
-      // TODO: 값 전송
-      setFormData({
-        email: "",
-        password: "",
-      });
+      try {
+        logIn({ email: formData.email, password: formData.password });
+        navigate("/");
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   return (
@@ -56,4 +60,4 @@ const Login = () => {
     </div>
   );
 };
-export default Login;
+export default LogIn;

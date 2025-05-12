@@ -1,5 +1,6 @@
 import Button from "@components/ui/common/Button";
 import LabeledInput from "@components/ui/common/LabeledInput";
+import { signUp } from "@src/supabase/auth/auth";
 import {
   validateEmail,
   validateName,
@@ -7,8 +8,10 @@ import {
   validatePasswordConfirm,
 } from "@utils/validator";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
-const Signup = () => {
+const SignUp = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     name: "",
@@ -22,7 +25,7 @@ const Signup = () => {
     passwordConfirm: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const emailError = validateEmail(formData.email);
@@ -46,13 +49,12 @@ const Signup = () => {
       !errors.name.length &&
       !errors.passwordConfirm.length
     ) {
-      // TODO: 값 전송
-      setFormData({
-        email: "",
-        name: "",
-        password: "",
-        passwordConfirm: "",
-      });
+      try {
+        signUp({ email: formData.email, name: formData.name, password: formData.password });
+        navigate("/login");
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -95,4 +97,4 @@ const Signup = () => {
     </div>
   );
 };
-export default Signup;
+export default SignUp;

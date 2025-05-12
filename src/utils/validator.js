@@ -24,6 +24,8 @@ export const validatePassword = (password) => {
   const passwordRegex = /^[A-Za-z0-9]+$/;
   if (password.trim().length === 0) {
     return "필수 항목입니다.";
+  } else if (password.trim().length < 6) {
+    return "비밀번호는 적어도 6자 이상이어야 합니다.";
   } else if (!passwordRegex.test(password)) {
     return "영문 대/소문자, 숫자를 사용해서 입력해주세요.";
   } else {
