@@ -38,24 +38,11 @@ export const signOut = async () => {
 };
 
 export const signInWithKakao = async () => {
-  const { data, error } = await supabase.auth.signInWithOAuth({
+  const { error } = await supabase.auth.signInWithOAuth({
     provider: "kakao",
   });
 
   if (error) {
     throw error;
-  }
-
-  // TODO: 작동되는지 확인 필요
-  if (data.user?.id) {
-    await supabase.from("user_table").upsert(
-      {
-        created_at: data.user?.created_at,
-        email: data.user?.email,
-        id: data.user?.id,
-        name: data.user?.user_metadata?.name,
-      },
-      { ignoreDuplicates: true, onConflict: "id" }
-    );
   }
 };
