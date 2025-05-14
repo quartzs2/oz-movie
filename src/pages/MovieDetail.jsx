@@ -21,7 +21,7 @@ const MovieDetail = () => {
 
   return (
     <ErrorBoundary fallback={<div>에러 발생</div>}>
-      <div className="flex w-full max-w-[1280px] items-end justify-center">
+      <div className="flex w-full relative items-end justify-center">
         <div
           className="absolute top-0 left-0 z-0 h-180 w-full bg-cover"
           style={{ backgroundImage: `url(${LARGE_BASE_URL}${backdrop_path})` }}
