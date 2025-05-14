@@ -1,35 +1,34 @@
+import noImage from "@assets/images/noImage.jpeg";
 import { BASE_URL } from "@constants/baseUrl";
 import { cn } from "@utils/cn";
 import { useState } from "react";
 import { Link } from "react-router";
 
-const MovieCard = ({
-  className,
-  id,
-  poster_path,
-  title,
-  vote_average: voteAverage,
-}) => {
+const MovieCard = ({ className, id, poster_path, title, vote_average: voteAverage }) => {
   const [isHover, setIsHover] = useState(false);
+
+  const handleError = (e) => {
+    console.log("이미지 로드 실패");
+
+    e.target.src = noImage;
+  };
 
   return (
     <Link to={`/details/${id}`}>
       <div
         className={cn(
           "card-size relative flex flex-col justify-between rounded-xl duration-100 hover:scale-102 hover:shadow-md",
-          className,
+          className
         )}
         onMouseLeave={() => setIsHover(false)}
         onMouseMove={() => setIsHover(true)}
       >
         <img
           alt={title}
-          className={cn(
-            "card-size absolute z-10 rounded-xl grayscale-100 duration-200",
-            {
-              "grayscale-0": isHover,
-            },
-          )}
+          className={cn("card-size absolute z-10 rounded-xl grayscale-100 duration-200", {
+            "grayscale-0": isHover,
+          })}
+          onError={handleError}
           src={`${BASE_URL}${poster_path}`}
         />
         <div
@@ -37,7 +36,7 @@ const MovieCard = ({
             "relative z-20 hidden h-full flex-col justify-end text-white duration-200",
             {
               flex: isHover,
-            },
+            }
           )}
         >
           <div className="rounded-xl bg-[rgba(0,0,0,0.4)] p-4 backdrop-blur-2xl">
