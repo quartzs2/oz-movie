@@ -1,4 +1,5 @@
 import Button from "@components/ui/common/Button";
+import { LOG_IN_URL, MAIN_URL } from "@constants/urls";
 import { SessionContext } from "@context/SessionContext";
 import { signOut } from "@src/supabase/auth/auth";
 import { useContext } from "react";
@@ -13,11 +14,11 @@ const AccountButton = () => {
     if (error) {
       alert("로그아웃에 실패했습니다.");
     } else {
-      navigate("/");
+      navigate(MAIN_URL);
     }
   };
   const handleLogIn = () => {
-    navigate("/login");
+    navigate(LOG_IN_URL);
   };
 
   return (

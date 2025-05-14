@@ -1,3 +1,4 @@
+import { MAIN_URL } from "@constants/urls";
 import { useDebounce } from "@hooks/useDebounce";
 import { cn } from "@utils/cn";
 import { useNavigate } from "react-router";
@@ -10,7 +11,7 @@ const SearchBar = ({ onFixed }) => {
         "backdrop-blur-2xl": onFixed,
       })}
       onChange={useDebounce((e) => {
-        navigate(`/?query=${e.target.value}`);
+        navigate(`${MAIN_URL}?query=${e.target.value}`);
       })}
       placeholder="검색어를 입력하세요"
     />

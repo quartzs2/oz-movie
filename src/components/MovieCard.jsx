@@ -1,5 +1,6 @@
 import noImage from "@assets/images/noImage.jpeg";
 import { BASE_URL } from "@constants/baseUrl";
+import { DETAIL_URL } from "@constants/urls";
 import { cn } from "@utils/cn";
 import { useState } from "react";
 import { Link } from "react-router";
@@ -14,7 +15,7 @@ const MovieCard = ({ className, id, poster_path, title, vote_average: voteAverag
   };
 
   return (
-    <Link to={`/details/${id}`}>
+    <Link to={`${DETAIL_URL}/${id}`}>
       <div
         className={cn(
           "card-size relative flex flex-col justify-between rounded-xl duration-100 hover:scale-102 hover:shadow-md",
