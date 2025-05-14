@@ -1,5 +1,6 @@
 import Button from "@components/ui/common/Button";
 import LabeledInput from "@components/ui/common/LabeledInput";
+import { MAIN_URL } from "@constants/urls";
 import { logIn, signInWithKakao } from "@src/supabase/auth/auth";
 import { validateEmail, validatePassword } from "@utils/validator";
 import { useState } from "react";
@@ -33,7 +34,7 @@ const LogIn = () => {
       if (error) {
         alert("오류가 발생했습니다.");
       } else {
-        navigate("/");
+        navigate(MAIN_URL);
       }
     }
   };

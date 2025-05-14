@@ -1,5 +1,6 @@
 import Button from "@components/ui/common/Button";
 import LabeledInput from "@components/ui/common/LabeledInput";
+import { LOG_IN_URL } from "@constants/urls";
 import { signUp } from "@src/supabase/auth/auth";
 import {
   validateEmail,
@@ -58,7 +59,7 @@ const SignUp = () => {
       if (error) {
         alert("에러가 발생했습니다.");
       } else {
-        navigate("/login");
+        navigate(LOG_IN_URL);
       }
     }
   };

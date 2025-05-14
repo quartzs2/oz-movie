@@ -1,6 +1,7 @@
 import { findByMovieTitle } from "@api/findByMovieTitle";
 import { getPopularMovies } from "@api/getPopularMovies";
 import MovieCardsContainer from "@components/MovieCardsContainer";
+import { MAIN_URL } from "@constants/urls";
 import { useFetch } from "@hooks/useFetch";
 import { useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
@@ -13,7 +14,7 @@ function Main() {
 
   useEffect(() => {
     if (searchParams.has("query") && !urlQuery) {
-      navigate("/");
+      navigate(MAIN_URL);
     }
   }, [navigate, searchParams, urlQuery]);
 
