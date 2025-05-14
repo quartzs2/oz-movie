@@ -8,9 +8,13 @@ const AccountButton = () => {
   const session = useContext(SessionContext);
   const navigate = useNavigate();
 
-  const handleLogOut = () => {
-    signOut();
-    navigate("/");
+  const handleLogOut = async () => {
+    const { error } = await signOut();
+    if (error) {
+      alert("로그아웃에 실패했습니다.");
+    } else {
+      navigate("/");
+    }
   };
   const handleLogIn = () => {
     navigate("/login");

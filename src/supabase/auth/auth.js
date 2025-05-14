@@ -1,48 +1,47 @@
 import supabase from "@src/supabase/supabaseClient";
 
 export const logIn = async ({ email, password }) => {
-  await supabase.auth
-    .signInWithPassword({
-      email,
-      password,
-    })
-    .catch((error) => {
-      throw error;
-    });
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+  return { data, error };
 };
 
 export const signUp = async ({ email, name, password }) => {
-  const { data, error } = await supabase.auth.signUp({
+  const { data: authData, error: authError } = await supabase.auth.signUp({
     email,
     password,
   });
 
-  if (error) {
-    throw error;
+  if (authError) {
+    return { data: null, error: authError };
   }
 
-  await supabase.from("user_table").insert({
-    created_at: data.user?.created_at,
-    email: data.user?.email,
-    id: data.user?.id,
+  const { error: insertError } = await supabase.from("user_table").insert({
+    created_at: authData.user?.created_at,
+    email: authData.user?.email,
+    id: authData.user?.id,
     name,
   });
+
+  if (insertError) {
+    return { data: null, error: insertError };
+  }
+
+  return { data: authData, error: null };
 };
 
 export const signOut = async () => {
   const { error } = await supabase.auth.signOut();
 
-  if (error) {
-    throw error;
-  }
+  return { data: null, error };
 };
 
 export const signInWithKakao = async () => {
-  const { error } = await supabase.auth.signInWithOAuth({
+  const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "kakao",
   });
 
-  if (error) {
-    throw error;
-  }
+  return { data, error };
 };
