@@ -44,16 +44,21 @@ const SignUp = () => {
     });
 
     if (
-      !errors.email.length &&
-      !errors.password.length &&
-      !errors.name.length &&
-      !errors.passwordConfirm.length
+      !emailError.length &&
+      !passwordError.length &&
+      !nameError.length &&
+      !passwordConfirmError.length
     ) {
-      try {
-        signUp({ email: formData.email, name: formData.name, password: formData.password });
+      const { error } = await signUp({
+        email: formData.email,
+        name: formData.name,
+        password: formData.password,
+      });
+
+      if (error) {
+        alert("에러가 발생했습니다.");
+      } else {
         navigate("/login");
-      } catch (error) {
-        console.error(error);
       }
     }
   };
@@ -96,7 +101,7 @@ const SignUp = () => {
       <h1 className="mb-8 text-2xl">회원가입</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         {INPUT_DATA.map((data) => (
-          <LabeledInput key={data.name} {...data} />
+          <LabeledInput key={data.title} {...data} />
         ))}
         <Button type="submit">회원가입</Button>
       </form>

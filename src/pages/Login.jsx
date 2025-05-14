@@ -16,7 +16,7 @@ const LogIn = () => {
     password: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const emailError = validateEmail(formData.email);
@@ -27,13 +27,22 @@ const LogIn = () => {
       password: passwordError,
     });
 
-    if (!errors.email.length && !errors.password.length) {
-      try {
-        logIn({ email: formData.email, password: formData.password });
-        navigate("/");
-      } catch {
+    if (!emailError.length && !passwordError.length) {
+      const { error } = await logIn({ email: formData.email, password: formData.password });
+
+      if (error) {
         alert("오류가 발생했습니다.");
+      } else {
+        navigate("/");
       }
+    }
+  };
+
+  const handleKakaoLogIn = async () => {
+    const { error } = await signInWithKakao();
+
+    if (error) {
+      alert("카카오 로그인에 실패했습니다.");
     }
   };
 
@@ -65,7 +74,7 @@ const LogIn = () => {
         <Button className={"mt-4"} type="submit">
           로그인
         </Button>
-        <Button onClick={() => signInWithKakao()}>카카오 로그인</Button>
+        <Button onClick={handleKakaoLogIn}>카카오 로그인</Button>
         <div className="text-sm flex items-center mt-4">
           오즈 무비가 처음이신가요?{" "}
           <Button className={"bg-white text-black underline"} onClick={() => navigate("/signup")}>
