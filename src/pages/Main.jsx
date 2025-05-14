@@ -17,26 +17,19 @@ function Main() {
     }
   }, [navigate, searchParams, urlQuery]);
 
-  const {
-    data: searchResults,
-    error: searchError,
-    isLoading: searchIsLoading,
-  } = useFetch({
+  const { data: searchResults, isLoading: searchIsLoading } = useFetch({
+    enabled: urlQuery,
     options: { query: urlQuery },
     query: findByMovieTitle,
   });
 
-  const {
-    data: popularMovies,
-    error: popularError,
-    isLoading: popularIsLoading,
-  } = useFetch({
+  const { data: popularMovies, isLoading: popularIsLoading } = useFetch({
+    enabled: !urlQuery,
     query: getPopularMovies,
   });
 
-  const { data, isLoading } = urlQuery
-    ? { data: searchResults, error: searchError, isLoading: searchIsLoading }
-    : { data: popularMovies, error: popularError, isLoading: popularIsLoading };
+  const data = searchResults || popularMovies;
+  const isLoading = searchIsLoading || popularIsLoading;
 
   if (isLoading) {
     return <div>로딩 중입니다</div>;
