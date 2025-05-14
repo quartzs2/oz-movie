@@ -48,14 +48,10 @@ function Main() {
   const allAgesMovieList = data?.results.filter((movie) => !movie.adult);
 
   return (
-    <div className="flex flex-col gap-8 lg:max-w-5xl xl:max-w-7xl">
+    <div className="flex flex-col gap-8 lg:max-w-5xl xl:max-w-7xl 2xl:max-w-full">
       <div>
-        <h2 className="h2 relative left-1">
-          {urlQuery ? "검색 결과" : "인기 영화"}
-        </h2>
-        {data?.results && (
-          <MovieCardsContainer movieListData={allAgesMovieList} />
-        )}
+        <h2 className="h2 relative left-1">{urlQuery ? "검색 결과" : "인기 영화"}</h2>
+        {data?.results && <MovieCardsContainer movieListData={allAgesMovieList} />}
       </div>
     </div>
   );
