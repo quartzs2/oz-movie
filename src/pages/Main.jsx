@@ -3,6 +3,7 @@ import { getPopularMovies } from "@api/getPopularMovies";
 import MovieCardsContainer from "@components/MovieCardsContainer";
 import { useFetch } from "@hooks/useFetch";
 import { useEffect } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { useNavigate, useSearchParams } from "react-router";
 
 function Main() {
@@ -33,7 +34,7 @@ function Main() {
     query: getPopularMovies,
   });
 
-  const { data, error, isLoading } = urlQuery
+  const { data, isLoading } = urlQuery
     ? { data: searchResults, error: searchError, isLoading: searchIsLoading }
     : { data: popularMovies, error: popularError, isLoading: popularIsLoading };
 
@@ -41,19 +42,17 @@ function Main() {
     return <div>로딩 중입니다</div>;
   }
 
-  if (error) {
-    return <div>오류가 발생했습니다</div>;
-  }
-
   const allAgesMovieList = data?.results.filter((movie) => !movie.adult);
 
   return (
-    <div className="flex flex-col gap-8 lg:max-w-5xl xl:max-w-7xl 2xl:max-w-full">
-      <div>
-        <h2 className="h2 relative left-1">{urlQuery ? "검색 결과" : "인기 영화"}</h2>
-        {data?.results && <MovieCardsContainer movieListData={allAgesMovieList} />}
+    <ErrorBoundary fallback={<div>에러 발생</div>}>
+      <div className="flex flex-col gap-8 lg:max-w-5xl xl:max-w-7xl 2xl:max-w-full">
+        <div>
+          <h2 className="h2 relative left-1">{urlQuery ? "검색 결과" : "인기 영화"}</h2>
+          {data?.results && <MovieCardsContainer movieListData={allAgesMovieList} />}
+        </div>
       </div>
-    </div>
+    </ErrorBoundary>
   );
 }
 
