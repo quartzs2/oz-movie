@@ -6,6 +6,11 @@
     width: 300px;
     height: 534px;
   }
+  .flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .h2 {
     font-size: 22px;
     font-weight: 600;

@@ -4,6 +4,7 @@ import { BASE_URL, LARGE_BASE_URL } from "@constants/baseUrl";
 import { useFetch } from "@hooks/useFetch";
 import { ErrorBoundary } from "react-error-boundary";
 import { useParams } from "react-router";
+import { ScaleLoader } from "react-spinners";
 
 const MovieDetail = () => {
   const params = useParams();
@@ -16,7 +17,12 @@ const MovieDetail = () => {
   const { backdrop_path, genres, overview, poster_path, title, vote_average } = data ?? {};
 
   if (isLoading) {
-    return <div>로딩 중입니다.</div>;
+    return (
+      <div className="mt-90 flex-center flex-col">
+        <ScaleLoader />
+        <div>로딩 중입니다.</div>
+      </div>
+    );
   }
 
   return (
