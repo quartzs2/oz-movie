@@ -1,6 +1,7 @@
 import { findByMovieTitle } from "@api/findByMovieTitle";
 import { getPopularMovies } from "@api/getPopularMovies";
-import MovieCardsContainer from "@components/MovieCardsContainer";
+import MovieCardsContainer from "@components/ui/common/MovieCard/MovieCardsContainer";
+import MovieCardsContainerSkeleton from "@components/ui/common/MovieCard/MovieCardsContainerSkeleton";
 import { MAIN_URL } from "@constants/urls";
 import { useFetch } from "@hooks/useFetch";
 import { useEffect } from "react";
@@ -33,7 +34,7 @@ function Main() {
   const isLoading = searchIsLoading || popularIsLoading;
 
   if (isLoading) {
-    return <div>로딩 중입니다</div>;
+    return <MovieCardsContainerSkeleton />;
   }
 
   const allAgesMovieList = data?.results.filter((movie) => !movie.adult);
