@@ -1,4 +1,4 @@
-import { MAIN_URL } from "@constants/urls";
+import { SEARCH_URL } from "@constants/urls";
 import { useDebounce } from "@hooks/useDebounce";
 import { cn } from "@utils/cn";
 import { useNavigate } from "react-router";
@@ -9,7 +9,7 @@ const SearchBar = () => {
     <input
       className={cn("flex h-10 w-100 items-center rounded-3xl px-6 shadow-md")}
       onChange={useDebounce((e) => {
-        navigate(`${MAIN_URL}?query=${e.target.value}`);
+        navigate(`${SEARCH_URL}?query=${e.target.value}`);
       })}
       placeholder="검색어를 입력하세요"
     />

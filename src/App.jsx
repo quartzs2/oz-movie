@@ -3,6 +3,7 @@ import LogIn from "@pages/LogIn";
 import Main from "@pages/Main";
 import MovieDetail from "@pages/MovieDetail";
 import NotFound from "@pages/NotFound";
+import Search from "@pages/Search";
 import SignUp from "@pages/SignUp";
 import { Route, Routes } from "react-router";
 
@@ -19,6 +20,10 @@ const App = () => {
     {
       element: <LogIn />,
       path: "login",
+    },
+    {
+      element: <Search />,
+      path: "search",
     },
     {
       element: <MovieDetail />,
