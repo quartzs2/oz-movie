@@ -1,64 +1,57 @@
-import { findByMovieTitle } from "@api/findByMovieTitle";
 import { getPopularMovies } from "@api/getPopularMovies";
-import MovieCardsContainer from "@components/MovieCardsContainer";
+import MovieCardsContainer from "@components/ui/common/MovieCard/MovieCardsContainer";
 import { useFetch } from "@hooks/useFetch";
-import { useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router";
+import useIntersect from "@hooks/useIntersect";
+import { useEffect, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
 function Main() {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const urlQuery = searchParams.get("query");
+  const [movies, setMovies] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
 
-  useEffect(() => {
-    if (searchParams.has("query") && !urlQuery) {
-      navigate("/");
-    }
-  }, [navigate, searchParams, urlQuery]);
-
-  const {
-    data: searchResults,
-    error: searchError,
-    isLoading: searchIsLoading,
-  } = useFetch({
-    options: { query: urlQuery },
-    query: findByMovieTitle,
-  });
-
-  const {
-    data: popularMovies,
-    error: popularError,
-    isLoading: popularIsLoading,
-  } = useFetch({
+  const { data: newData, isLoading } = useFetch({
+    options: { pageNumber: pageNumber },
     query: getPopularMovies,
   });
 
-  const { data, error, isLoading } = urlQuery
-    ? { data: searchResults, error: searchError, isLoading: searchIsLoading }
-    : { data: popularMovies, error: popularError, isLoading: popularIsLoading };
+  useEffect(() => {
+    if (newData?.results) {
+      const allAgesMovieList = newData?.results.filter((movie) => !movie.adult);
 
-  if (isLoading) {
-    return <div>로딩 중입니다</div>;
-  }
+      setMovies((prevMovies) => {
+        const existingMovieIds = new Set(prevMovies.map((movie) => movie.id));
+        const nonDuplicatedMovies = allAgesMovieList.filter(
+          (movie) => !existingMovieIds.has(movie.id)
+        );
+        return [...prevMovies, ...nonDuplicatedMovies];
+      });
+    }
+  }, [newData?.results]);
 
-  if (error) {
-    return <div>오류가 발생했습니다</div>;
-  }
-
-  const allAgesMovieList = data?.results.filter((movie) => !movie.adult);
+  const ref = useIntersect({
+    onIntersect: async (entry, observer) => {
+      observer.unobserve(entry.target);
+      if (!isLoading) {
+        setPageNumber((prev) => prev + 1);
+      }
+    },
+  });
 
   return (
-    <div className="flex flex-col gap-8 lg:max-w-5xl xl:max-w-7xl">
-      <div>
-        <h2 className="h2 relative left-1">
-          {urlQuery ? "검색 결과" : "인기 영화"}
-        </h2>
-        {data?.results && (
-          <MovieCardsContainer movieListData={allAgesMovieList} />
-        )}
+    <ErrorBoundary fallback={<div>에러 발생</div>}>
+      <div className="flex flex-col gap-8 lg:max-w-5xl xl:max-w-7xl 2xl:max-w-full">
+        <div>
+          <h2 className="h2 relative left-1">인기 영화</h2>
+          <MovieCardsContainer isLoading={isLoading} movieListData={movies} />
+          <Target ref={ref} />
+        </div>
       </div>
-    </div>
+    </ErrorBoundary>
   );
+}
+
+function Target({ ref }) {
+  return <div className="h-[1px]" ref={ref}></div>;
 }
 
 export default Main;

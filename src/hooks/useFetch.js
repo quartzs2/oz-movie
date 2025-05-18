@@ -1,7 +1,7 @@
 import { config } from "@api/common";
 import { useEffect, useState } from "react";
 
-export const useFetch = ({ options, query }) => {
+export const useFetch = ({ enabled = true, options, query }) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
@@ -15,7 +15,6 @@ export const useFetch = ({ options, query }) => {
         setData(data);
       } catch (error) {
         setError(error);
-        console.error(error);
       } finally {
         setIsLoading(false);
       }
@@ -23,6 +22,10 @@ export const useFetch = ({ options, query }) => {
 
     fetchData();
   }, [query, JSON.stringify(options)]);
+
+  if (!enabled) {
+    return { data: null, error: null, isLoading: null };
+  }
 
   return { data, error, isLoading };
 };

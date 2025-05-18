@@ -24,6 +24,14 @@ export default defineConfig({
         find: "@constants",
         replacement: path.resolve(__dirname, "src/constants"),
       },
+      {
+        find: "@src/supabase",
+        replacement: path.resolve(__dirname, "src/supabase"),
+      },
+      {
+        find: "@context",
+        replacement: path.resolve(__dirname, "src/context"),
+      },
     ],
   },
 });
