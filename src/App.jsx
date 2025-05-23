@@ -1,10 +1,10 @@
 import Layout from "@components/Layout";
-import LogIn from "@pages/LogIn";
+import LogIn from "@pages/Login";
 import Main from "@pages/Main";
 import MovieDetail from "@pages/MovieDetail";
 import NotFound from "@pages/NotFound";
 import Search from "@pages/Search";
-import SignUp from "@pages/SignUp";
+import SignUp from "@pages/Signup";
 import { Route, Routes } from "react-router";
 
 const App = () => {
